@@ -264,7 +264,7 @@ def main():
     white_win = 0
     black_win = 0
     for i in range(10):
-        game = Othello(8, 3, False)
+        game = Othello(8, 7, False)
         winner = game.play()
         if winner == 1:
             white_win += 1
