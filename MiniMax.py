@@ -119,115 +119,115 @@ class Othello:
     
     # ---------------------- minimax without prune ----------------------------
 
-    # def get_best_move(self, player):
-    #     moves = self.get_valid_moves(player)
-    #     if len(moves) == 0:
-    #         return None
-    #     best_move, best_value = None, -math.inf
-    #     for move in moves:
-    #         new_board = copy.deepcopy(self.board)
-    #         self.make_move(player, move)
-    #         value = self.minimax(-player, self.minimax_depth - 1)
-    #         if value > best_value:
-    #             best_move, best_value = move, value
-    #         self.board = new_board
-    #     return best_move
+    def get_best_move(self, player):
+        moves = self.get_valid_moves(player)
+        if len(moves) == 0:
+            return None
+        best_move, best_value = None, -math.inf
+        for move in moves:
+            new_board = copy.deepcopy(self.board)
+            self.make_move(player, move)
+            value = self.minimax(-player, self.minimax_depth - 1)
+            if value > best_value:
+                best_move, best_value = move, value
+            self.board = new_board
+        return best_move
     
-    # def minimax(self, player, depth):
-    #     if depth == 0:
-    #         return self.heuristic(player)
-    #     moves = self.get_valid_moves(player)
-    #     if len(moves) == 0:
-    #         return self.heuristic(player)
-    #     best_value = -math.inf if player == 1 else math.inf
-    #     for move in moves:
-    #         new_board = copy.deepcopy(self.board)
-    #         self.make_move(player, move)
-    #         value = self.minimax(-player, depth - 1)
-    #         if player == 1:
-    #             best_value = max(best_value, value)
-    #         else:
-    #             best_value = min(best_value, value)
-    #         self.board = new_board
-    #         if self.prune and best_value == 1:
-    #             break
-    #     return best_value
+    def minimax(self, player, depth):
+        if depth == 0:
+            return self.heuristic(player)
+        moves = self.get_valid_moves(player)
+        if len(moves) == 0:
+            return self.heuristic(player)
+        best_value = -math.inf if player == 1 else math.inf
+        for move in moves:
+            new_board = copy.deepcopy(self.board)
+            self.make_move(player, move)
+            value = self.minimax(-player, depth - 1)
+            if player == 1:
+                best_value = max(best_value, value)
+            else:
+                best_value = min(best_value, value)
+            self.board = new_board
+            if self.prune and best_value == 1:
+                break
+        return best_value
     
-    # def heuristic(self, player):
-    #     white_count = sum([row.count(1) for row in self.board])
-    #     black_count = sum([row.count(-1) for row in self.board])
-    #     if player == 1:
-    #         return white_count - black_count
-    #     else:
-    #         return black_count - white_count
+    def heuristic(self, player):
+        white_count = sum([row.count(1) for row in self.board])
+        black_count = sum([row.count(-1) for row in self.board])
+        if player == 1:
+            return white_count - black_count
+        else:
+            return black_count - white_count
 
-    # def get_ai_move(self):
-    #     return self.get_best_move(1)
+    def get_ai_move(self):
+        return self.get_best_move(1)
     
 
     #----------------------- minimax with prune ---------------------------
     
-    def calculate_the_best_move(self, player):
-        moves = self.get_valid_moves(player)
-        if len(moves) == 0:
-            return None
-        best_move = None
-        best_score = -math.inf
-        for move in moves:
-            board_copy = copy.deepcopy(self.board)
-            self.make_move(player, move)
-            score = self.minimax(-player, self.minimax_depth, -math.inf, math.inf)
-            if score > best_score:
-                best_score = score
-                best_move = move
-            self.board = board_copy
-        return best_move
+    # def calculate_the_best_move(self, player):
+    #     moves = self.get_valid_moves(player)
+    #     if len(moves) == 0:
+    #         return None
+    #     best_move = None
+    #     best_score = -math.inf
+    #     for move in moves:
+    #         board_copy = copy.deepcopy(self.board)
+    #         self.make_move(player, move)
+    #         score = self.minimax(-player, self.minimax_depth, -math.inf, math.inf)
+    #         if score > best_score:
+    #             best_score = score
+    #             best_move = move
+    #         self.board = board_copy
+    #     return best_move
     
-    def minimax(self, player, depth, alpha, beta):
-        if depth == 0:
-            return self.evaluate(player)
-        moves = self.get_valid_moves(player)
-        if len(moves) == 0:
-            return self.evaluate(player)
-        if player == 1:
-            best_score = -math.inf
-            for move in moves:
-                board_copy = copy.deepcopy(self.board)
-                self.make_move(player, move)
-                score = self.minimax(-player, depth - 1, alpha, beta)
-                best_score = max(best_score, score)
-                alpha = max(alpha, best_score)
-                self.board = board_copy
-                if self.prune and alpha >= beta:
-                    break
-            return best_score
-        else:
-            best_score = math.inf
-            for move in moves:
-                board_copy = copy.deepcopy(self.board)
-                self.make_move(player, move)
-                score = self.minimax(-player, depth - 1, alpha, beta)
-                best_score = min(best_score, score)
-                beta = min(beta, best_score)
-                self.board = board_copy
-                if self.prune and alpha >= beta:
-                    break
-            return best_score
+    # def minimax(self, player, depth, alpha, beta):
+    #     if depth == 0:
+    #         return self.evaluate(player)
+    #     moves = self.get_valid_moves(player)
+    #     if len(moves) == 0:
+    #         return self.evaluate(player)
+    #     if player == 1:
+    #         best_score = -math.inf
+    #         for move in moves:
+    #             board_copy = copy.deepcopy(self.board)
+    #             self.make_move(player, move)
+    #             score = self.minimax(-player, depth - 1, alpha, beta)
+    #             best_score = max(best_score, score)
+    #             alpha = max(alpha, best_score)
+    #             self.board = board_copy
+    #             if self.prune and alpha >= beta:
+    #                 break
+    #         return best_score
+    #     else:
+    #         best_score = math.inf
+    #         for move in moves:
+    #             board_copy = copy.deepcopy(self.board)
+    #             self.make_move(player, move)
+    #             score = self.minimax(-player, depth - 1, alpha, beta)
+    #             best_score = min(best_score, score)
+    #             beta = min(beta, best_score)
+    #             self.board = board_copy
+    #             if self.prune and alpha >= beta:
+    #                 break
+    #         return best_score
         
-    def evaluate(self, player):
-        score = 0
-        for i in range(self.size):
-            for j in range(self.size):
-                if self.board[i][j] == player:
-                    score += 1
-                elif self.board[i][j] == -player:
-                    score -= 1
-        return score
-    
-    def get_ai_move(self):
-        return self.calculate_the_best_move(1)
+    # def evaluate(self, player):
+    #     score = 0
+    #     for i in range(self.size):
+    #         for j in range(self.size):
+    #             if self.board[i][j] == player:
+    #                 score += 1
+    #             elif self.board[i][j] == -player:
+    #                 score -= 1
+    #     return score
 
+    # def get_ai_move(self):
+    #     return self.calculate_the_best_move(1)
 
+#-----------------------------------------------------
     
     
     def get_number_of_moves_for_each_round(self):
@@ -259,13 +259,28 @@ class Othello:
         winner = self.get_winner()
         return winner
 
+
 def main():
-    othello = Othello(8, 7, True)
-    start_time = time.time()
-    winner = othello.play()
-    end_time = time.time()
-    print(f"Winner: {winner}")
-    print(f"Execution time: {end_time - start_time} seconds")
+    white_win = 0
+    black_win = 0
+    for i in range(10):
+        game = Othello(8, 3, False)
+        winner = game.play()
+        if winner == 1:
+            white_win += 1
+        elif winner == -1:
+            black_win += 1
+    print(f"White won {white_win} times and black won {black_win} times")
+    turtle.done()
+
+
+    # def main():
+    # othello = Othello(8, 7, True)
+    # start_time = time.time()
+    # winner = othello.play()
+    # end_time = time.time()
+    # print(f"Winner: {winner}")
+    # print(f"Execution time: {end_time - start_time} seconds")
     
 if __name__ == "__main__":
     main()
